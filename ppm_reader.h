@@ -7,15 +7,15 @@ struct color {
 	int64_t b;
 };
 
-struct image {
+struct ppm_image {
 	int64_t columns;
 	int64_t rows;
 	struct color** fields;
 };
 
-void save_image(const struct image* const, const char* const);
-struct image* read_image(const char* const);
-struct image* empty_image(int64_t, int64_t);
-void print_image (const struct image* const);
+void ppm_save(const struct ppm_image* const, const char* const);
+struct ppm_image* ppm_read(const char* const);
+struct ppm_image* ppm_empty(int64_t, int64_t);
+void ppm_print(const struct ppm_image* const);
 
 #endif

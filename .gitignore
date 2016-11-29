@@ -4,6 +4,9 @@
 # executable
 main
 
+# output
+out.ppm
+
 # Prerequisites
 *.d
 

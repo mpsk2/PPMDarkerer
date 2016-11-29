@@ -1,9 +1,10 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ppm_reader.h"
 
-void save_image(const struct image* const img, const char* const path) {
+void ppm_save(const struct ppm_image* const img, const char* const path) {
 	FILE* file;
 	file = fopen(path, "wb");
 	fprintf(file, "P6\n");
@@ -24,11 +25,11 @@ void save_image(const struct image* const img, const char* const path) {
 	fclose(file);
 }
 
-struct image* read_image(const char* const path) {
+struct ppm_image* ppm_read(const char* const path) {
 	char type[3];
 	FILE* file;
 	int columns, rows, max_number;
-	struct image* img;
+	struct ppm_image* img;
 	file = fopen(path, "rb");
 	if (!file) {
 		fprintf(stderr, "Could not open given file: %s", path);
@@ -36,12 +37,12 @@ struct image* read_image(const char* const path) {
 	}
 	fscanf(file, "%2s", type);
 	fprintf(stderr, "Given type is %s\n", type);
-	if (strcmp(type, "P6") == 0) {
+	if (strcmp(type, "P6") == 0 || strcmp(type, "P3") == 0) {
 		fscanf(file, "%d", &columns);
 		fscanf(file, "%d", &rows);
 		fscanf(file, "%d", &max_number);
 		fprintf(stderr, "File is of %d columns and %d rows and %d max_number\n", columns, rows, max_number);
-		img = empty_image(columns, rows);
+		img = ppm_empty(columns, rows);
 		fseek(file, 1, SEEK_CUR);
 		unsigned char c[3];
 		for (int i = 0; i < rows; i++) {
@@ -60,8 +61,8 @@ struct image* read_image(const char* const path) {
 	return img;
 }
 
-struct image* empty_image(int64_t columns, int64_t rows) {
-	struct image* img=(struct image*) malloc(sizeof(struct image));
+struct ppm_image* ppm_empty(int64_t columns, int64_t rows) {
+	struct ppm_image* img=(struct ppm_image*) malloc(sizeof(struct ppm_image));
 	img->columns = columns;
 	img->rows = rows;
 	img->fields = (struct color**) malloc(columns*sizeof(struct rows*));
@@ -76,7 +77,7 @@ struct image* empty_image(int64_t columns, int64_t rows) {
 	return img;
 }
 
-void print_image (const struct image* const img) {
+void ppm_print(const struct ppm_image* const img) {
 	for (int i = 0; i < img->rows; i++) {
 		for (int j = 0; j < img->columns; j++) {
 			printf("%3ld %3ld %3ld   ", img->fields[i][j].r, img->fields[i][j].g, img->fields[i][j].b);
