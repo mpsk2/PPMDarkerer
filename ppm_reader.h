@@ -2,9 +2,9 @@
 #define __PPM_READER_H__
 
 struct color {
-	int64_t r;
-	int64_t g;
-	int64_t b;
+	int16_t r;
+	int16_t g;
+	int16_t b;
 };
 
 struct ppm_image {

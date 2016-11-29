@@ -1,6 +1,9 @@
 #ifndef __DARKER_H__
 #define __DARKER_H__
 
-int64_t darker(int64_t, int64_t);
+#include "ppm_reader.h"
+
+int16_t darker(int16_t base, int16_t change);
+void darkerer(struct color** colors, int64_t rows, int64_t cols, int64_t color, int64_t change);
 
 #endif
