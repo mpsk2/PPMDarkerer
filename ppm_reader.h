@@ -11,7 +11,7 @@ struct ppm_image {
 	int64_t columns;
 	int64_t rows;
 	struct color** fields;
-};
+} __attribute__ ((packed));
 
 void ppm_save(const struct ppm_image* const, const char* const);
 struct ppm_image* ppm_read(const char* const);
