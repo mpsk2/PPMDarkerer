@@ -1,3 +1,9 @@
+# vim swp
+*.swp
+
+# executable
+main
+
 # Prerequisites
 *.d
 

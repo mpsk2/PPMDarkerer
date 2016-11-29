@@ -13,6 +13,8 @@ struct image {
 	struct color** fields;
 };
 
+void save_image(const struct image* const, const char* const);
+struct image* read_image(const char* const);
 struct image* empty_image(int64_t, int64_t);
 void print_image (const struct image* const);
 

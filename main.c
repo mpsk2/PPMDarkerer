@@ -20,5 +20,10 @@ int main(int argc, char** argv) {
 	print_image(img);
 	struct color a[3][4];
 	darkerer(img->fields, 3, 4, 0, 15);
+	if (argc > 1) {
+		struct image* img2;
+		img2 = read_image(argv[1]);
+		save_image(img2, "out.ppm");
+	}
 	return 0;
 }
