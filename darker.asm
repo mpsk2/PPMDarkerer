@@ -8,8 +8,8 @@ darker:
 	; should return max(0, min(255, first_arg + second_arg))
 	push    r12
 	xor     rax, rax
-	mov     ax, di        ; move first argument to result
-	add     ax, si        ; add first second arguemnt to result
+	mov     ax,  di         ; move first argument to result
+	add     ax,  si         ; add first second arguemnt to result
 	mov     r12w, 0         ; 
 	cmp     ax, r12w        ; is result lower than 0?
 	cmovl   ax, r12w        ; if yes, set result to 0
@@ -17,4 +17,4 @@ darker:
 	cmp     r12w, ax        ; is 255 lower than result
 	cmovl   ax, r12w        ; if yes set result to 255
 	pop     r12
-	ret                   ; return result
+	ret                     ; return result

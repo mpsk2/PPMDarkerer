@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
 		printf("Before:\n");
 		ppm_print(img2);
 		darkerer(img2->fields, -128, img2->rows, img2->columns, 0);
-		darkerer(img2->fields, 22, img2->rows, img2->columns, 1);
+		darkerer(img2->fields, -90, img2->rows, img2->columns, 1);
 		darkerer(img2->fields, 128, img2->rows, img2->columns, 2);
 		ppm_save(img2, "out.ppm");
 		printf("After:\n");
