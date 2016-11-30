@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <netpbm/ppm.h>
 #include "ppm_reader.h"
 
 #define PPMREADBUFLEN 256
@@ -24,36 +25,29 @@ void ppm_save(const struct ppm_image* const img, const char* const path) {
 }
 
 struct ppm_image* ppm_read(const char* const path) {
-	char type[3];
-	FILE* file;
-	int columns, rows, max_number;
 	struct ppm_image* img;
-	file = fopen(path, "rb");
-	if (!file) {
-		fprintf(stderr, "Could not open given file: %s", path);
+	FILE* fb;
+	int columns, rows;
+	pixel** pixels;
+	pixval maxvalP;
+	fb = fopen(path, "rb");
+	if (!fb) {
+		fprintf(stderr, "file open error: %s", path);
 		exit(1);
 	}
-	fscanf(file, "%2s", type);
-	fprintf(stderr, "Given type is %s\n", type);
-	if (strncmp(type, "P6", 3) == 0 || strcmp(type, "P3") == 0) {
-		fscanf(file, "%d %d%d", &columns, &rows, &max_number);
-		fprintf(stderr, "File is of %d columns and %d rows and %d max_number\n", columns, rows, max_number);
-		img = ppm_empty(rows, columns);
-		fseek(file, 1, SEEK_CUR);
-		unsigned char c[3];
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				fread(c, 3, 1, file);
-				img->fields[i][j].r = c[0];
-				img->fields[i][j].g = c[1];
-				img->fields[i][j].b = c[2];
-			}
+	pixels = ppm_readppm(fb, &columns, &rows, &maxvalP);
+	fprintf(stderr, "%d %d %d", columns, rows, maxvalP);
+	img = ppm_empty(rows, columns);
+	
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < columns; j++) {
+			img->fields[i][j].r = pixels[i][j].r;
+			img->fields[i][j].g = pixels[i][j].g;
+			img->fields[i][j].b = pixels[i][j].b;
 		}
-	} else {
-		fprintf(stderr, "File is not P6");
-		exit(1);
 	}
-	fclose(file);
+	
+	fclose(fb);
 	return img;
 }
 
