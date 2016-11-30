@@ -1,3 +1,8 @@
+/*
+ * Michał Piotr Stankiewicz <ms335789@students.mimuw.edu.pl>
+ * A program to darken or lighten images in PPM
+ * Header containing ppm operations structs and functions
+ */
 #ifndef __PPM_READER_H__
 #define __PPM_READER_H__
 

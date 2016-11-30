@@ -7,10 +7,10 @@ LFLAGS=-lnetpbm -g -Wall
 
 OBJ=main.o darker.o darkerer.o ppm_reader.o
 
-all: main
+all: ppmdarker
 
-main: $(OBJ)
-	gcc $(OBJ) $(LFLAGS) -o main
+ppmdarker: $(OBJ)
+	gcc $(OBJ) $(LFLAGS) -o ppmdarker
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
@@ -19,5 +19,5 @@ main: $(OBJ)
 	$(AS) $(ASFLAGS) $<	
 
 clean:
-	rm -rf *.o main
+	rm -rf *.o ppmdarker
 

@@ -1,3 +1,8 @@
+/*
+ * Michał Piotr Stankiewicz <ms335789@students.mimuw.edu.pl>
+ * A program to darken or lighten images in PPM
+ * Sources containing ppm operations structs and functions
+ */
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +41,6 @@ struct ppm_image* ppm_read(const char* const path) {
 		exit(1);
 	}
 	pixels = ppm_readppm(fb, &columns, &rows, &maxvalP);
-	fprintf(stderr, "%d %d %d", columns, rows, maxvalP);
 	img = ppm_empty(rows, columns);
 	
 	for (int i = 0; i < rows; i++) {
@@ -46,6 +50,7 @@ struct ppm_image* ppm_read(const char* const path) {
 			img->fields[i][j].b = pixels[i][j].b;
 		}
 	}
+	ppm_freearray(pixels, rows);
 	
 	fclose(fb);
 	return img;

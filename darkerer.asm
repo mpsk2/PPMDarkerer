@@ -1,5 +1,8 @@
+	; Michał Piotr Stankiewicz <ms335789@students.mimuw.edu.pl>
+	; takes dynamic c array of structs and change its values. every value in struct is 
+	; 2 bytes integer
+	; it only change one value of struct
 	global darkerer
-	extern printf
 	extern darker
 
 	section .text

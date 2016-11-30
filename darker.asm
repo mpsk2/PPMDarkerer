@@ -1,3 +1,5 @@
+	; Michał Piotr Stankiewicz <ms335789@students.mimuw.edu.pl>
+	; takes 2 16-bit ints, add them and limit to bounds [0..255]
 	global darker
 	extern printf
 	section .text

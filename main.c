@@ -3,35 +3,35 @@
  * A program to darken or lighten images in PPM
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <inttypes.h>
 #include "darker.h"
 #include "ppm_reader.h"
 
+void usage() {
+	fprintf(stderr, "Usage ./ppmdarker file_name.ppm change [output]\nChange is [-255..255]");
+	exit(1);
+}
 
 int main(int argc, char** argv) {
-	printf("Should be 6: %d\n", darker(7, -1));
-	printf("Should be 0: %d\n", darker(100, -120));
-	printf("Should be 255: %d\n", darker(200, 64));
-	printf("Should be 128: %d\n", darker(64, 64));
-	struct ppm_image* img = ppm_empty(5,5);
-	
-	printf("Before:\n");
-	ppm_print(img);
-	printf("%d\n", darkerer(img->fields, 200, 5, 5, 0));
-	printf("After:\n");
-	ppm_print(img);
-	if (argc > 1) {
-		struct ppm_image* img2;
-		img2 = ppm_read(argv[1]);
-		printf("Before:\n");
-		ppm_print(img2);
-		darkerer(img2->fields, -128, img2->rows, img2->columns, 0);
-		darkerer(img2->fields, -90, img2->rows, img2->columns, 1);
-		darkerer(img2->fields, 128, img2->rows, img2->columns, 2);
+	if (argc < 3 || argc > 4) {
+		usage();
+	}
+	int change = atoi(argv[2]);
+	if (change > 255 || change < -255) {
+		usage();
+	}
+	struct ppm_image* img2 = ppm_read(argv[1]);
+	if (change != 0) {
+		darkerer(img2->fields, change, img2->rows, img2->columns, 0);
+		darkerer(img2->fields, change, img2->rows, img2->columns, 1);
+		darkerer(img2->fields, change, img2->rows, img2->columns, 2);
+	}
+	if (argc == 4) {
+		ppm_save(img2, argv[3]);
+	} else {
 		ppm_save(img2, "out.ppm");
-		printf("After:\n");
-		ppm_print(img2);
 	}
 	return 0;
 }
